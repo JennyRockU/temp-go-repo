@@ -1,6 +1,11 @@
 package storage
 
-import "github.com/google/uuid"
+import (
+	"database/sql"
+	"fmt"
+
+	"github.com/google/uuid"
+)
 
 type Repository struct {
 	name          string
@@ -22,6 +27,11 @@ func New() Storage {
 }
 
 func (s Storage) AddObject(repoName, objectData string) *Object {
+
+	/*EXAMPLE of DB injection vunerability*/
+	db, _ := sql.Open("d", "")
+	rows, _ := db.Query(fmt.Sprintf("SELECT * FROM user WHERE id = %s", "1"))
+	rows.Scan()
 
 	oIDTemp := uuid.New()
 	oID := oIDTemp.String()
