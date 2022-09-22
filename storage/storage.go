@@ -30,7 +30,8 @@ func (s Storage) AddObject(repoName, objectData string) *Object {
 
 	/*EXAMPLE of DB injection vunerability*/
 	db, _ := sql.Open("d", "")
-	rows, _ := db.Query(fmt.Sprintf("SELECT * FROM user WHERE id = %s", "1"))
+	query := fmt.Sprintf("SELECT * FROM user WHERE id = %s", "1")
+	rows, _ := db.Query(query)
 	rows.Scan()
 
 	oIDTemp := uuid.New()
